@@ -19,6 +19,6 @@ http.createServer(function(req, res) {
         res.write("Resource not found: '" + url + "' :( ");
         res.end();
     }
-}).listen(80, function() {
+}).listen(process.env.PORT || 80, function() {
     util.puts("Server running...");
 });
