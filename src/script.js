@@ -195,7 +195,7 @@ app.controller('app.controller', ['$scope', '$timeout', 'app.factory.context', '
 
     $scope.hue = function() {
         var note = $scope.model.freqChannelOne + '+' + $scope.model.freqChannelTwo, hue = TONE_HUE[note];
-        if (hue) return 'rgba(' + hue.r + ',' + hue.g + ',' + hue.b + ',0.5)';
+        if (hue) return 'rgba(' + hue.r + ',' + hue.g + ',' + hue.b + ',0.7)';
     };
 
     $scope.$watch('model.freqChannelOne', transition);
