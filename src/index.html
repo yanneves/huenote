@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html ng-app="huenote">
+    <head>
+        <title>HueNote</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="//getbootstrap.com/dist/css/bootstrap.min.css" />
+        <!-- link rel="stylesheet" href="/cdn/css/main.css" / -->
+    </head>
+    <body style="padding:70px 0; background:{{hue()}};" ng-controller="app.controller">
+
+        <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role-"navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/" title="HueNote">HueNote</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container" style="position:relative;">
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-4">
+                    <form>
+                        <div class="form-group">
+                            <label for="hz">Frequency (Channel 1)</label>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="model.tones[0].toggle()"><span class="glyphicon" ng-class="{'glyphicon-play':model.tones[0].paused, 'glyphicon-pause':!model.tones[0].paused}"></span></button>
+                                </span>
+                                <input type="number" class="form-control" disabled="disabled" ng-model="model.freqChannelOne">
+                                <span class="input-group-addon">Hz</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="hz">Frequency (Channel 2)</label>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="model.tones[1].toggle()"><span class="glyphicon" ng-class="{'glyphicon-play':model.tones[1].paused, 'glyphicon-pause':!model.tones[1].paused}"></span></button>
+                                </span>
+                                <input type="number" class="form-control" disabled="disabled" ng-model="model.freqChannelTwo">
+                                <span class="input-group-addon">Hz</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <p class="lead">Dial Tones</p>
+                </div>
+            </div>
+            <div class="row" ng-repeat="set in dialpad">
+                <div class="col-sm-2" ng-class="{'col-sm-offset-3':(dial.digit === set[0].digit)}" ng-repeat="dial in set">
+                    <button class="btn btn-default btn-lg btn-block" ng-click="setChannels(dial.loFreq, dial.hiFreq)">{{dial.digit}}</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+        <script src="//d3js.org/d3.v3.min.js"></script>
+        <!-- script src="//cdnjs.cloudflare.com/ajax/libs/dancer.js/0.3.1/dancer.js"></script -->
+        <script src="script.js"></script>
+
+    </body>
+</html>
