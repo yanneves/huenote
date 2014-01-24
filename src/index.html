@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="row" ng-repeat="set in dialpad">
-                <div class="col-sm-2" ng-class="{'col-sm-offset-3':(dial.digit === set[0].digit)}" ng-repeat="dial in set">
+                <div class="col-xs-2" ng-class="{'col-xs-offset-3':(dial.digit === set[0].digit)}" ng-repeat="dial in set">
                     <button class="btn btn-default btn-lg btn-block" ng-click="setChannels(dial.loFreq, dial.hiFreq)">{{dial.digit}}</button>
                 </div>
             </div>
