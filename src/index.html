@@ -20,25 +20,15 @@
 
         <div class="container" style="position:relative;">
             <div class="row">
-                <div class="col-sm-4 col-sm-offset-4">
+                <div class="col-sm-6 col-sm-offset-3">
                     <form>
                         <div class="form-group">
-                            <label for="hz">Frequency (Channel 1)</label>
+                            <label for="hz">Frequency</label>
                             <div class="input-group">
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="model.tones[0].toggle()"><span class="glyphicon" ng-class="{'glyphicon-play':model.tones[0].paused, 'glyphicon-pause':!model.tones[0].paused}"></span></button>
+                                    <button type="button" class="btn btn-default" ng-click="model.tone.toggle()"><span class="glyphicon" ng-class="{'glyphicon-play':model.tone.paused, 'glyphicon-pause':!model.tone.paused}"></span></button>
                                 </span>
-                                <input type="number" class="form-control" disabled="disabled" ng-model="model.freqChannelOne">
-                                <span class="input-group-addon">Hz</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="hz">Frequency (Channel 2)</label>
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="model.tones[1].toggle()"><span class="glyphicon" ng-class="{'glyphicon-play':model.tones[1].paused, 'glyphicon-pause':!model.tones[1].paused}"></span></button>
-                                </span>
-                                <input type="number" class="form-control" disabled="disabled" ng-model="model.freqChannelTwo">
+                                <input type="number" class="form-control" disabled="disabled" ng-model="model.frequency">
                                 <span class="input-group-addon">Hz</span>
                             </div>
                         </div>
@@ -46,13 +36,26 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <p class="lead">Dial Tones</p>
+                <div class="col-sm-1 col-sm-offset-3">
+                    <span class="label label-default">-4</span>
+                </div>
+                <div class="col-sm-4">
+                    <form>
+                        <div class="form-group">
+                            <input type="range" min="-4" max="4" ng-model="model.multiplier" style="width:100%;">
+                            
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-1">
+                    <span class="label label-default">+4</span>
                 </div>
             </div>
-            <div class="row" ng-repeat="set in dialpad">
-                <div class="col-xs-2" ng-class="{'col-xs-offset-3':(dial.digit === set[0].digit)}" ng-repeat="dial in set">
-                    <button class="btn btn-default btn-lg btn-block" ng-click="setChannels(dial.loFreq, dial.hiFreq)">{{dial.digit}}</button>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="btn-group btn-group-justified" ng-repeat="set in key">
+                        <a role="button" class="btn btn-default btn-lg" ng-click="setChannel(tone.freq)" ng-repeat="tone in set">{{tone.note}}</a>
+                    </div>
                 </div>
             </div>
         </div>
