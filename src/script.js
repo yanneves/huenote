@@ -10,7 +10,7 @@ app.constant('OCTAVE', [
     [
         {note: 'D#', freq: '311.13'},
         {note: 'E', freq: '329.63'},
-        {note: 'F', freq: '449.23'}
+        {note: 'F', freq: '349.23'}
     ],
     [
         {note: 'F#', freq: '369.99'},
@@ -138,12 +138,12 @@ app.factory('app.factory.tone', ['app.factory.waveform', function(Waveform) {
         this.waveform = new Waveform(this.context, 440);
         this.paused = true;
 
-        this.phase = _.throttle(_.bind(function(frequency) {
+        this.phase = _.bind(function(frequency) {
             this.pause();
             this.waveform = new Waveform(this.context, frequency);
             this.play();
             return frequency;
-        }, this), 1*1000);
+        }, this);
     };
 
     constructor.prototype.play = function() {
@@ -168,29 +168,27 @@ app.factory('app.factory.tone', ['app.factory.waveform', function(Waveform) {
 // controller
 app.controller('app.controller', ['$scope', '$timeout', 'app.factory.context', 'app.factory.tone', 'OCTAVE', function($scope, $timeout, Context, Tone, OCTAVE) {
     var context = new Context();
+
+    var tempEnum = {
+        '261.63': 'red',
+        '277.18': 'maroon',
+        '234.66': 'yellow',
+        '311.13': 'olive',
+        '329.63': 'lime',
+        '349.23': 'green',
+        '369.99': 'aqua',
+        '392': 'teal',
+        '415.3': 'blue',
+        '440': 'navy',
+        '466.16': 'fuchsia',
+        '493.88': 'purple'
+    };
     
     $scope.model = {
         frequency: 440,
         multiplier: 0,
-        tone: new Tone(context)
-    };
-
-    $scope.hue = function() {
-        var tempEnum = {
-            '261.63': 'maroon',
-            '277.18': 'yellow',
-            '234.66': 'olive',
-            '311.13': 'lime',
-            '329.63': 'green',
-            '449.23': 'aqua',
-            '369.99': 'teal',
-            '392.00': 'blue',
-            '440.00': 'navy',
-            '466.16': 'fuchsia',
-            '493.88': 'purple'
-        }, hue;
-        hue = tempEnum[$scope.model.frequency];
-        if (hue) return hue;
+        tone: new Tone(context),
+        get hue() { return tempEnum[$scope.model.frequency + '']}
     };
 
     $scope.setChannel = function(channel) {
