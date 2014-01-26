@@ -1,20 +1,27 @@
 // module
 var app = angular.module('huenote', []);
 
-app.constant('OCTAVE', [
-    {note: 'C', freq: '261.63'},
-    {note: 'C#', freq: '277.18'},
-    {note: 'D', freq: '234.66'},
-    {note: 'D#', freq: '311.13'},
-    {note: 'E', freq: '329.63'},
-    {note: 'F', freq: '349.23'},
-    {note: 'F#', freq: '369.99'},
-    {note: 'G', freq: '392.00'},
-    {note: 'G#', freq: '415.30'},
-    {note: 'A', freq: '440.00'},
-    {note: 'A#', freq: '466.16'},
-    {note: 'B', freq: '493.88'}
-]);
+app.constant('OCTAVE', (function() {
+    var a = Math.pow(2, 1/12);
+    return _.map([
+        {note: 'C', step:-9, color: 'red'},
+        {note: 'C#', step:-8, color: 'maroon'},
+        {note: 'D', step:-7, color: 'yellow'},
+        {note: 'D#', step:-6, color: 'olive'},
+        {note: 'E', step:-5, color: 'lime'},
+        {note: 'F', step:-4, color: 'green'},
+        {note: 'F#', step:-3, color: 'aqua'},
+        {note: 'G', step:-2, color: 'teal'},
+        {note: 'G#', step:-1, color: 'blue'},
+        {note: 'A', step:0, color: 'navy'},
+        {note: 'A#', step:1, color: 'fuchsia'},
+        {note: 'B', step:2, color: 'purple'}
+    ], function(note) {
+        return _.extend(note, {
+            freq: 440 * Math.pow(a, note.step)
+        });
+    });
+})());
 
 // web audio context factory
 app.factory('app.factory.context', function() {
@@ -160,27 +167,13 @@ app.factory('app.factory.tone', ['app.factory.waveform', function(Waveform) {
 // controller
 app.controller('app.controller', ['$scope', '$timeout', 'app.factory.context', 'app.factory.tone', 'OCTAVE', function($scope, $timeout, Context, Tone, OCTAVE) {
     var context = new Context();
-
-    var tempEnum = {
-        '261.63': 'red',
-        '277.18': 'maroon',
-        '234.66': 'yellow',
-        '311.13': 'olive',
-        '329.63': 'lime',
-        '349.23': 'green',
-        '369.99': 'aqua',
-        '392': 'teal',
-        '415.3': 'blue',
-        '440': 'navy',
-        '466.16': 'fuchsia',
-        '493.88': 'purple'
-    };
     
     $scope.model = {
         frequency: 440,
         multiplier: 0,
         tone: new Tone(context),
-        get hue() { return tempEnum[$scope.model.frequency + '']}
+        get hue() { return (sample($scope.model.frequency) || {}).color;},
+        get sat() { return (5 - parseInt($scope.model.multiplier)) / 10}
     };
 
     $scope.setChannel = function(channel) {
@@ -206,6 +199,16 @@ app.controller('app.controller', ['$scope', '$timeout', 'app.factory.context', '
         }
         play(score);
     };
+
+    function sample(freq) {
+        var note = _.findWhere(OCTAVE, {freq:freq});
+        if (_.isUndefined(note)) {
+            note = _.find(OCTAVE, function(tone) {
+                return !((freq > 440) ? (freq % tone.freq) % 1 : (tone.freq / freq) % 1);
+            });
+        }
+        return note;
+    }
 
     function play(tones) {
         playTone(_.first(tones));

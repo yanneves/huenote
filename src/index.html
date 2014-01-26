@@ -8,7 +8,10 @@
         <link rel="stylesheet" href="//getbootstrap.com/dist/css/bootstrap.min.css" />
         <!-- link rel="stylesheet" href="/cdn/css/main.css" / -->
     </head>
-    <body style="padding:70px 0; background:{{model.hue}};" ng-controller="app.controller">
+    <body style="padding:70px 0;" ng-controller="app.controller">
+
+        <div style="background:{{model.hue}}; opacity:{{model.sat}}; position:absolute; top:0; right:0; bottom:0; left:0; z-index:-1;">
+        </div>
 
         <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role-"navigation">
             <div class="container">
