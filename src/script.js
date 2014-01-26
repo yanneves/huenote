@@ -2,26 +2,18 @@
 var app = angular.module('huenote', []);
 
 app.constant('OCTAVE', [
-    [
-        {note: 'C', freq: '261.63'},
-        {note: 'C#', freq: '277.18'},
-        {note: 'D', freq: '234.66'}
-    ],
-    [
-        {note: 'D#', freq: '311.13'},
-        {note: 'E', freq: '329.63'},
-        {note: 'F', freq: '349.23'}
-    ],
-    [
-        {note: 'F#', freq: '369.99'},
-        {note: 'G', freq: '392.00'},
-        {note: 'G#', freq: '415.30'}
-    ],
-    [
-        {note: 'A', freq: '440.00'},
-        {note: 'A#', freq: '466.16'},
-        {note: 'B', freq: '493.88'}
-    ]
+    {note: 'C', freq: '261.63'},
+    {note: 'C#', freq: '277.18'},
+    {note: 'D', freq: '234.66'},
+    {note: 'D#', freq: '311.13'},
+    {note: 'E', freq: '329.63'},
+    {note: 'F', freq: '349.23'},
+    {note: 'F#', freq: '369.99'},
+    {note: 'G', freq: '392.00'},
+    {note: 'G#', freq: '415.30'},
+    {note: 'A', freq: '440.00'},
+    {note: 'A#', freq: '466.16'},
+    {note: 'B', freq: '493.88'}
 ]);
 
 // web audio context factory
@@ -197,6 +189,39 @@ app.controller('app.controller', ['$scope', '$timeout', 'app.factory.context', '
         $timeout(function() {
             $scope.model.tone.pause();
         }, 600);
-    }; $scope.key = OCTAVE;
+    }; $scope.key = [[OCTAVE[0], OCTAVE[1], OCTAVE[2]], [OCTAVE[3], OCTAVE[4], OCTAVE[5]], [OCTAVE[6], OCTAVE[7], OCTAVE[8]], [OCTAVE[9], OCTAVE[10], OCTAVE[11]]];
+
+    $scope.playTest = function(type) {
+        var score = [];
+        switch (type) {
+            case 'octaves':
+                score = ['C:-4', 'C:-3', 'C:-2', 'C:-1', 'C:0', 'C:1', 'C:2', 'C:3', 'C:4'];
+                break;
+            case 'softkitty':
+                score = ['D#', 'C', 'C#', 'A#:-1', 'G#:-1', 'C', 'D#', 'D#', 'D#', 'C', 'C#', 'A#:-1', 'G#:-1', 'A#:-1', 'G#:-1', 'G#:-1'];
+                break;
+            default:
+                score = ['C', 'D#', 'F', 'F#', 'G', 'A#', 'B', 'C:1', 'B', 'A#', 'G', 'F#', 'F', 'D#', 'C'];
+                break;
+        }
+        play(score);
+    };
+
+    function play(tones) {
+        playTone(_.first(tones));
+        $timeout(function() {
+            var rest = _.rest(tones);
+            if (rest.length) play(rest);
+        }, 750);
+
+        function playTone(tone) {
+            tone = tone.split(':');
+            var note = tone[0], key = parseInt(tone[1]) || 0,
+                freq = freq = (_.findWhere(OCTAVE, {note:note}) || {}).freq || 440;
+
+            if (_.isNumber(key)) $scope.model.multiplier = key;
+            return $scope.setChannel(freq);
+        }
+    }
 
 }]);

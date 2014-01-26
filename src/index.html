@@ -37,18 +37,18 @@
             </div>
             <div class="row">
                 <div class="col-sm-1 col-sm-offset-3">
-                    <span class="label label-default">-4</span>
+                    <span class="label label-default">-8</span>
                 </div>
                 <div class="col-sm-4">
                     <form>
                         <div class="form-group">
-                            <input type="range" min="-4" max="4" ng-model="model.multiplier" style="width:100%;">
+                            <input type="range" min="-8" max="8" ng-model="model.multiplier" style="width:100%;">
                             
                         </div>
                     </form>
                 </div>
                 <div class="col-sm-1">
-                    <span class="label label-default">+4</span>
+                    <span class="label label-default">+8</span>
                 </div>
             </div>
             <div class="row">
@@ -58,11 +58,20 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <p class="lead">PlayTest</p>
+                    <div class="btn-group btn-group-justified">
+                        <a role="button" class="btn btn-default btn-lg" ng-click="playTest('octaves')">Octaves</a>
+                        <a role="button" class="btn btn-default btn-lg" ng-click="playTest('softkitty')">&quot;Soft Kitty&quot;</a>
+                        <a role="button" class="btn btn-default btn-lg" ng-click="playTest('jazz')">Jazz</a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
-        <script src="//d3js.org/d3.v3.min.js"></script>
         <!-- script src="//cdnjs.cloudflare.com/ajax/libs/dancer.js/0.3.1/dancer.js"></script -->
         <script src="script.js"></script>
 
