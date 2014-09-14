@@ -1,2 +1,2 @@
-huenote
+huenote v0.1
 =======
